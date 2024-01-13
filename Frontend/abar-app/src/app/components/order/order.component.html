@@ -1,0 +1,13 @@
+<h1>Select products to order</h1>
+<div class="items-wrapper">
+    <label *ngFor="let product of products; index as i" class="item">
+        {{product.name}} {{product.capacity}} ml for {{product.price}} złotych per bottle
+        <input type="checkbox" [checked]="product.isSelected" (change)="toggleProduct(i)">
+        <div *ngIf="product.isSelected">
+            Set quantity
+            <input type="number" min="0" [(ngModel)]="quantities[product.pk]" [ngModelOptions]="{ standalone: true }">
+        </div>
+    </label>
+</div>
+<button (click)="order()">Order now</button>
+

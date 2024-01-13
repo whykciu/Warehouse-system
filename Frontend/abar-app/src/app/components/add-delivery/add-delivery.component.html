@@ -1,0 +1,10 @@
+<h1>Select orders to deliver</h1>
+<div class="items-wrapper">
+    <label *ngFor="let order of orders" class="item">
+        Order id: {{order.pk}}
+        <input type="checkbox" [(ngModel)]="checkboxes[order.pk]" [ngModelOptions]="{ standalone: true }">
+    </label>
+</div>
+<button (click)="createDelivery()">Create delivery</button>
+
+

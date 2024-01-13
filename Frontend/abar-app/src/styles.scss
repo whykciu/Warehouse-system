@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+    font-family: 'Gill Sans', sans-serif; 
+    margin: 0;
+    padding: 0;
+ }
+
+ .items-wrapper{
+    display: flex;
+    flex-direction: column;
+    .item{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        margin-block: 10px;
+        background-color: rgb(109, 109, 109);
+        border-radius: 10px;
+        width: fit-content;
+        [type=number]{
+            width: 50px;
+        }
+    } 
+}

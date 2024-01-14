@@ -1,22 +1,22 @@
 <div class="employee-picker">
     <p>Pick employee: </p>
-    <select name="employee">    
-        <option value="1">Jan Kowalski</option>
-        <option value="2">Krzysztof Ktoś</option>
-        <option value="3">Jan Budzik</option>
+    <select name="employee" [(ngModel)]="selected">    
+        <option *ngFor="let employee of employees" value="{{employee.pk}}">
+            {{employee.name}} {{employee.surname}}
+        </option>
     </select>
 </div>
 
 <div class="tasks-wrapper">
-    <a class="task-item" href="add/delivery">
+    <a class="task-item" routerLink="delivery">
         <img src="../assets/img/delivery.png" alt="Delivery">
         <p>Delivery</p>
     </a>
-    <a class="task-item" href="add/warehouse">
+    <a class="task-item" routerLink="warehouse">
         <img src="../assets/img/warehouse.png" alt="Warehouse">
         <p>Warehouse task</p>
     </a>
-    <a class="task-item" href="add/custom">
+    <a class="task-item" routerLink="custom">
         <img src="../assets/img/custom.png" alt="Custom">
         <p>Custom task</p>
     </a>

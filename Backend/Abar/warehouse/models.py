@@ -1,4 +1,5 @@
 from django.db import models
+from abc import ABC, abstractmethod
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
@@ -21,6 +22,11 @@ class Order(models.Model):
         default=Status.NEW
     )
 
+    task = models.ForeignKey('Delivery', on_delete=models.PROTECT, null=True, blank=True)
+
+    def get_items(self):
+        return OrderItem.objects.filter(order=self)
+
     def __str__(self):
         return 'Order ' + self.pk.__str__()
 
@@ -32,3 +38,103 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return self.product.name + ' ' + self.quantity.__str__()
+    
+class Task(models.Model):
+
+    class Type(models.TextChoices):
+        DELIVERY = 'DEL', 'Delivery'
+        WAREHOUSE = 'WRH', 'Warehouse'
+        CUSTOM = 'CUS', 'Custom'
+
+    executingEmployee = models.ForeignKey('users.WarehouseEmployee', on_delete=models.PROTECT)
+    title = models.CharField(max_length=100, null=True, blank=True)
+    date = models.DateField(auto_now_add=True)
+    type = models.CharField(
+        max_length=3,
+        choices=Type.choices,
+        default=Type.DELIVERY,
+        null=True,
+        blank=True
+    )
+
+    class Meta: 
+        abstract = True
+
+    @abstractmethod
+    def setUpTask(self, **kwargs):
+        pass
+
+class Delivery(Task):
+
+    def get_orders(self):
+        return Order.objects.filter(task=self)
+
+    def setUpTask(self, **kwargs):
+        self.title = self.__str__()
+        self.type = Task.Type.DELIVERY
+        orders = kwargs['orders']
+        self.task.save()
+        for order in orders:
+            order.status = Order.Status.IN_PROGRESS
+            order.task = self.task
+            order.save()
+
+    def __str__(self):
+        return 'Delivery ' + self.pk.__str__()
+    
+class WarehouseTask(Task):
+
+    task_item = models.ForeignKey('WarehouseTaskItem', on_delete=models.PROTECT)
+
+    def setUpTask(self, **kwargs):
+        self.title = self.__str__()
+        self.type = Task.Type.WAREHOUSE
+        self.task_item = kwargs['task_item']
+        self.task.save()
+
+    def __str__(self):
+        return 'Warehouse task ' + self.pk.__str__()
+    
+class WarehouseTaskItem(models.Model):
+    description = models.CharField(max_length=100)
+    def __str__(self):
+        return self.description
+
+class CustomTask(Task):
+
+    description = models.TextField()
+
+    def setUpTask(self, **kwargs):
+        self.title = self.__str__()
+        self.type = Task.Type.CUSTOM
+        self.description = kwargs['description']
+        self.task.save()
+
+    def __str__(self):
+        return 'Custom task ' + self.pk.__str__()
+
+
+class TaskCreator(ABC):
+
+    class Meta: 
+        abstract = True
+    
+    def create(self, **kwargs):
+        task = self.createNewTask(**kwargs)
+        task.setUpTask(**kwargs)
+
+    @abstractmethod
+    def createNewTask(self, **kwargs):
+        pass
+
+class DeliveryCreator(TaskCreator):
+    def createNewTask(self, **kwargs):
+        return Delivery(**kwargs)
+        
+class WarehouseCreator(TaskCreator):
+    def createNewTask(self, **kwargs):
+        return WarehouseTask(**kwargs)
+    
+class CustomCreator(TaskCreator):
+    def createNewTask(self, **kwargs):
+        return CustomTask(**kwargs)

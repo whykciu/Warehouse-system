@@ -5,6 +5,7 @@ from django.http import HttpRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from .models import *
+from users.models import *
 from django.http import JsonResponse
 from django.core import serializers
 from .forms import ProductForm
@@ -33,11 +34,9 @@ def get_orders(request):
         for order in orders:
             serialized_data.append({'pk': order.pk, 'status': order.status})
         
-        print(serialized_data)
         return JsonResponse(serialized_data, safe=False)
     else:
         return JsonResponse({'error': 'Not a GET method'})
-    
 
 @csrf_exempt
 @require_POST

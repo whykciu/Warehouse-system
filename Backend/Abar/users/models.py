@@ -19,4 +19,13 @@ class User(models.Model):
         default=Role.CLIENT
     )
 
+    def __str__(self):
+        return self.name + ' ' + self.surname
+
+    class Meta:
+        abstract = True
+
+class WarehouseEmployee(User):
+    pass
+
 

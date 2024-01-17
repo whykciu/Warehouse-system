@@ -14,7 +14,7 @@ class ReponseProduct{
 })
 export class ProductService {
 
-  private productUrl = 'http://127.0.0.1:8000/warehouse/order/'
+  private productUrl = 'http://127.0.0.1:8000/warehouse/products/'
   private sendProductUrl = 'http://127.0.0.1:8000/warehouse/order/send/'
 
   constructor(private http: HttpClient) { }
@@ -35,13 +35,8 @@ export class ProductService {
     if(this.responses.length > 0){
       const jsonData = JSON.stringify(this.responses)
       this.http.post(this.sendProductUrl, jsonData).subscribe(
-        response => {
-          console.log('Data sent successfully:', response);
-        },
-        error => {
-          console.error('Error sending data:', error);
-        }
-      );
+        response => console.log('Data sent successfully:', response)
+      )
     }
 
     this.responses = []

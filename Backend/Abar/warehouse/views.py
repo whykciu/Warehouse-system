@@ -37,6 +37,19 @@ def get_orders(request):
         return JsonResponse(serialized_data, safe=False)
     else:
         return JsonResponse({'error': 'Not a GET method'})
+    
+@csrf_exempt
+def get_warehouse_tasks(request):
+    if request.method == "GET":
+        tasks = WarehouseTaskItem.objects.all()
+        serialized_data = []
+
+        for task in tasks:
+            serialized_data.append({'pk': task.pk, 'description': task.description})
+        
+        return JsonResponse(serialized_data, safe=False)
+    else:
+        return JsonResponse({'error': 'Not a GET method'})
 
 @csrf_exempt
 @require_POST
@@ -44,20 +57,82 @@ def post_order(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
-            order = Order.objects.create()
+            if data != None: 
+                order = Order.objects.create()
+                for item in data:
+                    try:
+                        product_instance = Product.objects.get(pk=item['pk'])
+                        OrderItem.objects.create(order=order, product=product_instance, quantity=item['quantity'])
+                    except Product.DoesNotExist:
+                        return JsonResponse({'error': f'Product with ID {item['pk']} not found'}, status=400)
 
-            for item in data:
-                try:
-                    product_instance = Product.objects.get(pk=item['pk'])
-                    OrderItem.objects.create(order=order, product=product_instance, quantity=item['quantity'])
-                except Product.DoesNotExist:
-                    return JsonResponse({'error': f'Product with ID {item['pk']} not found'}, status=400)
-
-            order.save()
-            response_data = {'message': 'Order received successfully', 'order_id': order.id}
-            return JsonResponse(response_data)
+                order.save()
+                response_data = {'message': 'Order received successfully', 'order_id': order.id}
+                return JsonResponse(response_data)
         except json.JSONDecodeError as e:
             return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
 
+
+@csrf_exempt
+@require_POST
+def post_task_delivery(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            if data != None: 
+                order_objects = []
+                for item in data['orderIds']:
+                    try:
+                        order_instance = Order.objects.get(pk=item)
+                        order_instance.status = Order.Status.IN_PROGRESS
+                        order_objects.append(order_instance)
+                    except Order.DoesNotExist:
+                        return JsonResponse({'error': f'Order with ID {item} not found'}, status=400)
+                employee = WarehouseEmployee.objects.get(pk=data['pkEmployee'])
+                delivery = DeliveryCreator()
+                delivery.create(executingEmployee=employee, orders=order_objects)
+                response_data = {'message': 'Delivery created successfully'}
+                return JsonResponse(response_data)
+        except json.JSONDecodeError as e:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
+@csrf_exempt
+@require_POST
+def post_task_warehouse(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            if data != None:                
+                employee = WarehouseEmployee.objects.get(pk=data['pkEmployee'])
+                item = WarehouseTaskItem.objects.get(pk=data['taskId'])
+                task = WarehouseCreator()
+                task.create(executingEmployee=employee, task_item=item)
+                response_data = {'message': 'Warehouse task created successfully'}
+                return JsonResponse(response_data)
+        except json.JSONDecodeError as e:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
+@csrf_exempt
+@require_POST
+def post_task_custom(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            if data != None:                
+                employee = WarehouseEmployee.objects.get(pk=data['pkEmployee'])
+                task_title = data['title']
+                task_desc = data['description']
+                task = CustomCreator()
+                task.create(executingEmployee=employee, title=task_title, description=task_desc)
+                response_data = {'message': 'Custom task created successfully'}
+                return JsonResponse(response_data)
+        except json.JSONDecodeError as e:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)

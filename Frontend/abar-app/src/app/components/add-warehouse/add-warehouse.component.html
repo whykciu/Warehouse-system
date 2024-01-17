@@ -1,1 +1,6 @@
-<p>add-warehouse works!</p>
+<select name="warehouse_task" [(ngModel)]="selectedTaskId">
+    <option *ngFor="let task of warehouseTasks" value="{{task.pk}}">
+        {{task.description}}
+    </option>
+</select>
+<button (click)="createWarehouseTask()">Create warehouse task</button>

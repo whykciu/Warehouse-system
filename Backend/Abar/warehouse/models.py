@@ -1,3 +1,4 @@
+from typing import Any
 from django.db import models
 from abc import ABC, abstractmethod
 
@@ -66,17 +67,21 @@ class Task(models.Model):
 
 class Delivery(Task):
 
+    def __init__(self, *args: Any, **kwargs: Any):
+        self.orders = kwargs.pop('orders', []) 
+        super().__init__(*args, **kwargs)
+         
+
     def get_orders(self):
         return Order.objects.filter(task=self)
 
     def setUpTask(self, **kwargs):
         self.title = self.__str__()
         self.type = Task.Type.DELIVERY
-        orders = kwargs['orders']
-        self.task.save()
-        for order in orders:
+        self.save()
+        for order in self.orders:
             order.status = Order.Status.IN_PROGRESS
-            order.task = self.task
+            order.task = self
             order.save()
 
     def __str__(self):
@@ -86,11 +91,14 @@ class WarehouseTask(Task):
 
     task_item = models.ForeignKey('WarehouseTaskItem', on_delete=models.PROTECT)
 
+    def __init__(self, *args: Any, **kwargs: Any):
+        super().__init__(*args, **kwargs)
+
     def setUpTask(self, **kwargs):
         self.title = self.__str__()
         self.type = Task.Type.WAREHOUSE
         self.task_item = kwargs['task_item']
-        self.task.save()
+        self.save()
 
     def __str__(self):
         return 'Warehouse task ' + self.pk.__str__()
@@ -104,11 +112,13 @@ class CustomTask(Task):
 
     description = models.TextField()
 
+    def __init__(self, *args: Any, **kwargs: Any):
+        super().__init__(*args, **kwargs)
+
     def setUpTask(self, **kwargs):
-        self.title = self.__str__()
         self.type = Task.Type.CUSTOM
         self.description = kwargs['description']
-        self.task.save()
+        self.save()
 
     def __str__(self):
         return 'Custom task ' + self.pk.__str__()

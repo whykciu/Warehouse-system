@@ -28,5 +28,9 @@ export class AddTaskComponent implements OnInit{
     )
   }
 
+  setEmployeeId() {
+    this.warehouseEmployeeSerive.setEmployeeId(this.selected);
+  }
+
 
 }

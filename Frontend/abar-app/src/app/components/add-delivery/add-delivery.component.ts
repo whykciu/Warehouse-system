@@ -33,7 +33,7 @@ export class AddDeliveryComponent implements OnInit{
 
   createDelivery(){
     const checkedKeys = Object.keys(this.checkboxes).filter(k => this.checkboxes[+k]).map(k => +k)
-    this.warehouseEmployeeService.sendOrdersToTask(this.selectedId, checkedKeys)
+    this.orderService.sendOrdersToTask(this.selectedId, checkedKeys)
   }
 
 

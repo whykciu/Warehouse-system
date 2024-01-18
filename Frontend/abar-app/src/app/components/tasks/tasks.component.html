@@ -1,0 +1,7 @@
+<div class="items-wrapper">
+    <div class="item" *ngFor="let task of tasks">
+        {{task.title}} <br> 
+        {{task.date}} <br>
+        <img [src]="getImageSource(task.type)" alt="{{ task.title }} Image">
+    </div>
+</div>

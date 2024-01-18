@@ -3,18 +3,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { WarehouseEmployeeService } from '../../../services/warehouse-employee-service/warehouse-employee.service';
 import { User } from '../../interfaces/user';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet, Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  imports: [ CommonModule, FormsModule, RouterLink, RouterLinkActive ],
+  imports: [ CommonModule, FormsModule, RouterLink, RouterLinkActive, RouterOutlet ],
   templateUrl: './add-task.component.html',
   styleUrl: './add-task.component.scss'
 })
 export class AddTaskComponent implements OnInit{
 
-  constructor(private warehouseEmployeeSerive: WarehouseEmployeeService){}
+  constructor(private warehouseEmployeeSerive: WarehouseEmployeeService, private router: Router){}
 
   employees: User[] = []
   selected: number = 0
@@ -31,6 +31,5 @@ export class AddTaskComponent implements OnInit{
   setEmployeeId() {
     this.warehouseEmployeeSerive.setEmployeeId(this.selected);
   }
-
 
 }

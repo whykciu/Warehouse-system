@@ -7,6 +7,8 @@ import { AddTaskComponent } from './components/add-task/add-task.component';
 import { AddDeliveryComponent } from './components/add-delivery/add-delivery.component';
 import { AddWarehouseComponent } from './components/add-warehouse/add-warehouse.component';
 import { AddCustomComponent } from './components/add-custom/add-custom.component';
+import { TasksComponent } from './components/tasks/tasks.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @Component({
   standalone: true,
@@ -18,6 +20,8 @@ import { AddCustomComponent } from './components/add-custom/add-custom.component
     AddDeliveryComponent,
     AddWarehouseComponent,
     AddCustomComponent,
+    TasksComponent,
+    NotFoundComponent,
     RouterOutlet, 
     RouterLink, 
     RouterLinkActive

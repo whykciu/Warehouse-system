@@ -136,3 +136,17 @@ def post_task_custom(request):
             return JsonResponse({'error': 'Invalid JSON data'}, status=400)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
+@csrf_exempt
+def get_delivery_details(request, id=-1):
+    if request.method == "GET":
+        orders = Delivery.objects.get(pk=id).get_orders()
+        serialized_data = []
+
+        for order in orders:
+            orderItems = OrderItem.objects.filter(order=order)
+            serialized_data.append({'pk': order.pk, 'status': order.status, 'orderItems': [{'pk_item': item.pk, 'product_str': item.product.__str__(), 'quantity': item.quantity, 'isDone': item.isDone} for item in orderItems]})
+    
+        return JsonResponse(serialized_data, safe=False)
+    else:
+        return JsonResponse({'error': 'Not a GET method'})

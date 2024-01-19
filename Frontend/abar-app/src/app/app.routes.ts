@@ -8,6 +8,7 @@ import { AddWarehouseComponent } from './components/add-warehouse/add-warehouse.
 import { TasksComponent } from './components/tasks/tasks.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { EmployeeExistsGuard } from './guards/employee-exists.guard';
+import { DeliveryDetailsComponent } from './components/delivery-details/delivery-details.component';
 
 
 export const routes: Routes = [
@@ -18,6 +19,7 @@ export const routes: Routes = [
     { path: 'add/warehouse', component: AddWarehouseComponent },
     { path: 'add/custom', component: AddCustomComponent },
     { path: 'tasks/:id', component: TasksComponent, canActivate: [EmployeeExistsGuard]},
+    { path: 'delivery/:id/details', component: DeliveryDetailsComponent},
     { path: 'not-found', component: NotFoundComponent },
     { path: '**', component: NotFoundComponent },
 ]

@@ -8,7 +8,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
 
     def __str__(self):
-        return self.name
+        return self.name + ' ' + self.capacity.__str__() + ' ml ' + self.price.__str__() + ' zł'
 
 class Order(models.Model):
 
@@ -23,7 +23,7 @@ class Order(models.Model):
         default=Status.NEW
     )
 
-    task = models.ForeignKey('Delivery', on_delete=models.PROTECT, null=True, blank=True)
+    task = models.ForeignKey('Delivery', on_delete=models.CASCADE, null=True, blank=True)
 
     def get_items(self):
         return OrderItem.objects.filter(order=self)
@@ -32,8 +32,8 @@ class Order(models.Model):
         return 'Order ' + self.pk.__str__()
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.PROTECT)
-    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=0)
     isDone = models.BooleanField(default=False)
 
@@ -71,7 +71,6 @@ class Delivery(Task):
         self.orders = kwargs.pop('orders', []) 
         super().__init__(*args, **kwargs)
          
-
     def get_orders(self):
         return Order.objects.filter(task=self)
 

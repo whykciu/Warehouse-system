@@ -1,7 +1,7 @@
 <div class="items-wrapper">
-    <div class="item" *ngFor="let task of tasks">
+    <a class="item" *ngFor="let task of tasks" (click)="navigate(task.type, task.pk)" >
         {{task.title}} <br> 
         {{task.date}} <br>
         <img [src]="getImageSource(task.type)" alt="{{ task.title }} Image">
-    </div>
+    </a>
 </div>

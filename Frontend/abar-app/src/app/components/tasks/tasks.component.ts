@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Route } from '@angular/router';
+import { ActivatedRoute, Route, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { TaskService } from '../../../services/task-service/task.service';
 import { Task } from '../../interfaces/task';
 import { CommonModule } from '@angular/common';
@@ -7,13 +7,13 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [ CommonModule ],
+  imports: [ CommonModule, RouterLink, RouterLinkActive ],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss'
 })
 export class TasksComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private taskService: TaskService){}
+  constructor(private route: ActivatedRoute, private taskService: TaskService, private router: Router){}
 
   id: string = ''
   tasks: Task[] = []
@@ -38,6 +38,23 @@ export class TasksComponent implements OnInit {
         return '../assets/img/custom.png'
       default:
         return '../assets/img/custom.png'
+    }
+  }
+
+  navigate(type: string, id: number){
+    switch(type){
+      case 'DEL':
+        this.router.navigate(['/delivery', id, 'details']);
+        break;
+      case 'WRH':
+        this.router.navigate(['/not-found']);
+        break;
+      case 'CUS':
+        this.router.navigate(['/not-found']);
+        break;
+      default:
+        this.router.navigate(['/delivery', id, 'details']);
+        break;
     }
   }
 

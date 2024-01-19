@@ -14,6 +14,7 @@ export class OrderService {
   
   private orderUrl = 'http://127.0.0.1:8000/warehouse/orders/'
   private taskUrl = 'http://127.0.0.1:8000/warehouse/task/delivery/send/'
+  private getOrders = 'http://127.0.0.1:8000/warehouse/delivery/'
 
   constructor(private http: HttpClient) { }
 
@@ -21,6 +22,10 @@ export class OrderService {
 
   getNewOrders() :  Observable<Order[]>{
     return this.http.get<Order[]>(this.orderUrl)
+  }
+
+  getOrdersForDelivery(id: string) :  Observable<Order[]>{
+    return this.http.get<Order[]>(this.getOrders + id + '/details/')
   }
 
   sendOrdersToTask(employeeId: number, orders: number[]){

@@ -9,4 +9,5 @@ urlpatterns = [
     path("task/warehouse-task/", views.get_warehouse_tasks),
     path("task/warehouse-task/send/", views.post_task_warehouse),
     path("task/custom-task/send/", views.post_task_custom),
+    path("delivery/<int:id>/details/", views.get_delivery_details),
 ]

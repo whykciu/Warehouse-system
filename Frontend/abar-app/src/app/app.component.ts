@@ -12,6 +12,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { DeliveryDetailsComponent } from './components/delivery-details/delivery-details.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { OrderHistoryComponent } from './components/order-history/order-history.component';
 
 @Component({
   standalone: true,
@@ -27,6 +28,7 @@ import { RegisterComponent } from './components/register/register.component';
     DeliveryDetailsComponent,
     LoginComponent,
     RegisterComponent,
+    OrderHistoryComponent,
     NotFoundComponent,
     RouterOutlet, 
     RouterLink, 

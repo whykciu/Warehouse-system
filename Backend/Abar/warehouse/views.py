@@ -32,8 +32,12 @@ def get_orders(request):
         serialized_data = []
 
         for order in orders:
-            serialized_data.append({'pk': order.pk, 'status': order.status})
-        
+            orderItems = OrderItem.objects.filter(order=order)
+            client = order.client
+            email = client.user.email
+            address = client.user.address
+            serialized_data.append({'pk': order.pk, 'status': order.status, 'clientEmail': email , 'clientAddress': address, 'orderItems': [{'pk_item': item.pk, 'product_str': item.product.__str__(), 'quantity': item.quantity, 'isDone': item.isDone} for item in orderItems]})
+    
         return JsonResponse(serialized_data, safe=False)
     else:
         return JsonResponse({'error': 'Not a GET method'})
@@ -58,14 +62,13 @@ def post_order(request):
         try:
             data = json.loads(request.body)
             if data != None: 
-                order = Order.objects.create()
-                for item in data:
+                order = Order.objects.create(client=Client.objects.get(pk=data['pkClient']))
+                for item in data['products']:
                     try:
                         product_instance = Product.objects.get(pk=item['pk'])
                         OrderItem.objects.create(order=order, product=product_instance, quantity=item['quantity'])
                     except Product.DoesNotExist:
                         return JsonResponse({'error': f'Product with ID {item['pk']} not found'}, status=400)
-
                 order.save()
                 response_data = {'message': 'Order received successfully', 'order_id': order.id}
                 return JsonResponse(response_data)
@@ -154,6 +157,26 @@ def get_delivery_details(request, id=-1):
 
         for order in orders:
             orderItems = OrderItem.objects.filter(order=order)
+            client = order.client
+            email = client.user.email
+            address = client.user.address
+            serialized_data.append({'pk': order.pk, 'status': order.status, 'clientEmail': email, 'clientAddress': address, 'orderItems': [{'pk_item': item.pk, 'product_str': item.product.__str__(), 'quantity': item.quantity, 'isDone': item.isDone} for item in orderItems]})
+    
+        return JsonResponse(serialized_data, safe=False)
+    else:
+        return JsonResponse({'error': 'Not a GET method'})
+    
+@csrf_exempt
+def get_orders_client(request, id=-1):
+    if request.method == "GET":
+        orders = Client.objects.get(pk=id).get_orders()
+        serialized_data = []
+
+        for order in orders:
+            orderItems = OrderItem.objects.filter(order=order)
+            client = order.client
+            email = client.user.email
+            address = client.user.address
             serialized_data.append({'pk': order.pk, 'status': order.status, 'orderItems': [{'pk_item': item.pk, 'product_str': item.product.__str__(), 'quantity': item.quantity, 'isDone': item.isDone} for item in orderItems]})
     
         return JsonResponse(serialized_data, safe=False)

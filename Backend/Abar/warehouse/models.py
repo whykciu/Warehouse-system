@@ -24,6 +24,7 @@ class Order(models.Model):
     )
 
     task = models.ForeignKey('Delivery', on_delete=models.CASCADE, null=True, blank=True)
+    client = models.ForeignKey('users.Client', on_delete=models.CASCADE, null=True, blank=True)
 
     def get_items(self):
         return OrderItem.objects.filter(order=self)

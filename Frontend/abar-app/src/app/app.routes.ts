@@ -11,6 +11,7 @@ import { EmployeeExistsGuard } from './guards/employee-exists.guard';
 import { DeliveryDetailsComponent } from './components/delivery-details/delivery-details.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { OrderHistoryComponent } from './components/order-history/order-history.component';
 
 
 export const routes: Routes = [
@@ -24,6 +25,7 @@ export const routes: Routes = [
     { path: 'add/custom', component: AddCustomComponent },
     { path: 'tasks/:id', component: TasksComponent, canActivate: [EmployeeExistsGuard]},
     { path: 'delivery/:id/details', component: DeliveryDetailsComponent},
+    { path: 'orders/client', component: OrderHistoryComponent},
     { path: 'not-found', component: NotFoundComponent },
     { path: '**', component: NotFoundComponent },
 ]

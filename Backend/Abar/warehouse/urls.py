@@ -11,4 +11,5 @@ urlpatterns = [
     path("task/custom-task/send/", views.post_task_custom),
     # path("delivery/<int:id>/", views.get_delivery),
     path("delivery/<int:id>/details/", views.get_delivery_details),
+    path("orders/client/<int:id>/", views.get_orders_client),
 ]

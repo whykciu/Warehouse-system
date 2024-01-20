@@ -17,7 +17,6 @@ export class DeliveryDetailsComponent implements OnInit{
 
   constructor(private orderService: OrderService, private route: ActivatedRoute){}
   
-  jsonArray: any[] = []
   orders: Order[] = []
   selected: number = 0
   id: string = ''

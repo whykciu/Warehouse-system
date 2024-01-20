@@ -3,6 +3,7 @@ import { ProductService } from '../../../services/product-service/product.servic
 import { Product } from '../../interfaces/product';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../../services/auth-service/auth.service';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class OrderComponent implements OnInit{
   response: { [key: number]: number } = {}
   quantities: { [key: number]: number } = {}
 
-  constructor(private productService: ProductService){}
+  constructor(private productService: ProductService, private authService: AuthService){}
   
   ngOnInit(){
     this.productService.getProducts().subscribe(
@@ -34,7 +35,7 @@ export class OrderComponent implements OnInit{
 
   order(){
     const selected = this.products.filter(product => product.isSelected === true)
-    this.productService.sendProductsToOrder(selected, this.quantities)
+    this.productService.sendProductsToOrder(selected, this.quantities, this.authService.getAccountId())
   }
 
 

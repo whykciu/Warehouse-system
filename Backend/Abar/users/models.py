@@ -1,5 +1,5 @@
 from django.db import models
-from warehouse.models import Task, Delivery, WarehouseTask, CustomTask
+from warehouse.models import Task, Delivery, WarehouseTask, CustomTask, Order
 
 class User(models.Model):
 
@@ -47,6 +47,9 @@ class WarehouseEmployee(models.Model):
 
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+
+    def get_orders(self):
+        return Order.objects.filter(client=self)
 
     def __str__(self):
         return self.user.name + ' ' + self.user.surname

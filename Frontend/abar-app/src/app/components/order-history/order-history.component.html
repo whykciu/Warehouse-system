@@ -1,0 +1,15 @@
+
+<div class="items-wrapper">
+    <label class="item" *ngFor="let order of orders; let i = index" >
+        <input type="radio" name="orderItems" value="{{i}}" [(ngModel)]="selected">
+        Order {{order.pk}} <br> 
+        {{order.status}} <br>
+    </label>
+</div>
+<div class="items-wrapper">
+    <div class="item" *ngFor="let orderItem of orders[selected].orderItems">
+        {{orderItem.product_str}} <br>
+        {{orderItem.quantity}} <br>
+        {{orderItem.isDone}} <br>   
+    </div>
+</div>

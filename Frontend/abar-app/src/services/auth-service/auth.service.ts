@@ -9,6 +9,7 @@ import { LoginResponse } from '../../app/interfaces/login-response';
 export class AuthService {
 
   private sendLoginRequestUrl = "http://127.0.0.1:8000/users/login/" 
+  private sendRegisterRequestUrl = "http://127.0.0.1:8000/users/register/" 
 
   constructor(private http: HttpClient) { }
 
@@ -17,6 +18,10 @@ export class AuthService {
 
   login(username: string, password: string): Observable<any>{
     return this.http.post(this.sendLoginRequestUrl, { username, password })
+  }
+
+  register(username: string, password: string, name: string, surname: string, address: string, phoneNumber: string): Observable<any>{
+    return this.http.post(this.sendRegisterRequestUrl, { username, password, name, surname, address, phoneNumber })
   }
 
   logout(){
@@ -49,6 +54,10 @@ export class AuthService {
 
   isOfficeEmployee(): boolean {
     return localStorage.getItem('role') === 'OFF'
+  }
+
+  getAccountId(): number {
+    return +localStorage.getItem('acc_id')!
   }
 
 }

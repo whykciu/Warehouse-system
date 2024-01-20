@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../services/auth-service/auth.service';
 import { CommonModule } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   standalone: true,
@@ -12,7 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class NavComponent {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private snackBar: MatSnackBar) { }
   
   isLoggedInCheck(){
     return this.authService.isLoggedIn()
@@ -44,6 +45,9 @@ export class NavComponent {
 
   logout(){
     this.authService.logout()
+    this.snackBar.open('You have signed out', 'Close', {
+      duration: 1500, 
+    })
   }
   
 }

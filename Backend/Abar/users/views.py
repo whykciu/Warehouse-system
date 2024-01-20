@@ -40,6 +40,9 @@ def get_tasks(request, id=-1):
     else:
         return JsonResponse({'error': 'Not a GET method'})
 
+def user_exists(username):
+    return User.objects.filter(email=username).exists()
+
 def authenticate_user(email, password):
     try:
         user = User.objects.get(email=email)
@@ -60,6 +63,37 @@ def get_user_by_role(user):
         return WarehouseEmployee.objects.get(user=user)
     else:
         return None
+
+@csrf_exempt
+@require_POST
+def post_register(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            if data != None:                
+                username = data['username']
+                if not user_exists(username):
+                    password = data['password']
+                    name = data['name']
+                    surname = data['surname']
+                    address = data['address']
+                    phone_number = data['phoneNumber']
+                    try:
+                        User.objects.create(email=username, password=password, name=name, surname=surname, address=address, phone_number=phone_number, role=User.Role.CLIENT).save()
+                        response_data = {'result': 'true', 'message': 'Client user created successfully'}
+                    except:
+                        response_data = {'result': 'false', 'message': 'Uknown error occured, try again'}
+                        return JsonResponse(response_data)
+                else:
+                    response_data = {'result': 'false', 'message': 'User with given email already exists'}
+
+                print(response_data)
+                return JsonResponse(response_data)
+        except json.JSONDecodeError as e:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
 
 @csrf_exempt
 @require_POST

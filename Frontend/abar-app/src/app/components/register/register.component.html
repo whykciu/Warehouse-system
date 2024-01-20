@@ -1,0 +1,27 @@
+<form #myForm="ngForm" (ngSubmit)="register()"> 
+    <label>
+        Name:
+        <input type="text" name="name" [(ngModel)]="name" ngModel required>
+    </label>
+    <label>
+        Surname:
+        <input type="text" name="surname" [(ngModel)]="surname" ngModel required>
+    </label>
+    <label>
+        Address:
+        <input type="text" name="address" [(ngModel)]="address" ngModel required>
+    </label>
+    <label>
+        Phone number:
+        <input type="tel" name="phoneNumber" [(ngModel)]="phoneNumber" ngModel required>
+    </label>
+    <label>
+        Email:
+        <input type="email" name="login" [(ngModel)]="username" ngModel required>
+    </label>
+    <label>
+        Password:
+        <input type="password" name="password" [(ngModel)]="password" ngModel required>
+    </label>
+    <button type="submit" [disabled]="!myForm.valid">Register</button>
+</form> 

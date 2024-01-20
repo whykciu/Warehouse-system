@@ -10,12 +10,14 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { EmployeeExistsGuard } from './guards/employee-exists.guard';
 import { DeliveryDetailsComponent } from './components/delivery-details/delivery-details.component';
 import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
 
 export const routes: Routes = [
     { path: 'home', redirectTo: '/', pathMatch: 'full' },
     { path: 'order', component: OrderComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
     { path: 'add', component: AddTaskComponent },
     { path: 'add/delivery', component: AddDeliveryComponent },
     { path: 'add/warehouse', component: AddWarehouseComponent },

@@ -4,14 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth-service/auth.service';
 import { Role } from '../../interfaces/role';
 import { LoginResponse } from '../../interfaces/login-response';
-import { Route, Router } from '@angular/router';
+import { Route, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ CommonModule, FormsModule ],
+  imports: [ CommonModule, FormsModule, RouterLink, RouterLinkActive ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -42,13 +42,13 @@ export class LoginComponent {
   private showLoginSuccesPrompt() {
     let user = localStorage.getItem('user')
     this.snackBar.open(`Login success. Welcome ${ user }`, 'Close', {
-      duration: 3000, // Display duration in milliseconds
+      duration: 3000, 
     })
   }
 
   private showLoginFailedPrompt() {
     this.snackBar.open('Login failed. Please try again.', 'Close', {
-      duration: 3000, // Display duration in milliseconds
+      duration: 3000, 
     })
   }
 

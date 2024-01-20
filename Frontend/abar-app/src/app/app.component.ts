@@ -11,6 +11,7 @@ import { TasksComponent } from './components/tasks/tasks.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { DeliveryDetailsComponent } from './components/delivery-details/delivery-details.component';
 import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
 @Component({
   standalone: true,
@@ -25,6 +26,7 @@ import { LoginComponent } from './components/login/login.component';
     TasksComponent,
     DeliveryDetailsComponent,
     LoginComponent,
+    RegisterComponent,
     NotFoundComponent,
     RouterOutlet, 
     RouterLink, 

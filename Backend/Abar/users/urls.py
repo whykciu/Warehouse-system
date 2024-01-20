@@ -6,4 +6,5 @@ urlpatterns = [
     path("employees/warehouse/<int:id>/tasks/", views.get_tasks),
     path("employees/warehouse/<int:id>/", views.get_warehouse_employee),
     path("login/", views.post_login),
+    path("register/", views.post_register),
 ]

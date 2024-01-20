@@ -10,6 +10,7 @@ import { AddCustomComponent } from './components/add-custom/add-custom.component
 import { TasksComponent } from './components/tasks/tasks.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { DeliveryDetailsComponent } from './components/delivery-details/delivery-details.component';
+import { LoginComponent } from './components/login/login.component';
 
 @Component({
   standalone: true,
@@ -23,6 +24,7 @@ import { DeliveryDetailsComponent } from './components/delivery-details/delivery
     AddCustomComponent,
     TasksComponent,
     DeliveryDetailsComponent,
+    LoginComponent,
     NotFoundComponent,
     RouterOutlet, 
     RouterLink, 

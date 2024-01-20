@@ -23,10 +23,11 @@ class User(models.Model):
     def __str__(self):
         return self.name + ' ' + self.surname
 
-    class Meta:
-        abstract = True
+class WarehouseEmployee(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
 
-class WarehouseEmployee(User):
+    def __str__(self):
+        return self.user.name + ' ' + self.user.surname
 
     def get_tasks(self):
         tasks: [] = []
@@ -43,3 +44,17 @@ class WarehouseEmployee(User):
 
     def get_custom_tasks(self):
         return CustomTask.objects.filter(executingEmployee=self)
+
+class Client(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return self.user.name + ' ' + self.user.surname
+
+
+
+class OfficeEmployee(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return self.user.name + ' ' + self.user.surname

@@ -137,6 +137,15 @@ def post_task_custom(request):
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
     
+# @csrf_exempt
+# def get_delivery(request, id=-1):
+#     if request.method == "GET":
+#         response = Delivery.objects.filter(pk=id).exists()
+#         return HttpResponse(response)
+#     else:
+#         return JsonResponse({'error': 'Not a GET method'})
+    
+    
 @csrf_exempt
 def get_delivery_details(request, id=-1):
     if request.method == "GET":

@@ -1,8 +1,10 @@
 <nav>
     <h3>Abar</h3>
     <a routerLink="/home">Home</a>
-    <a routerLink="/order">Order</a>
-    <a routerLink="/add">Add task</a>
+    <a routerLink="/order" *ngIf="isLoggedInClient()">Order</a>
+    <a routerLink="/add" *ngIf="isLoggedInOfficeEmployee()">Add task</a>
+    <a routerLink="/login" class="right-item" *ngIf="!isLoggedInCheck()">Login</a>
+    <a routerLink="/" class="right-item" (click)="logout()" *ngIf="isLoggedInCheck()">Logout</a>
 </nav>
 
 

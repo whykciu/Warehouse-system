@@ -47,7 +47,7 @@ class Task(models.Model):
         WAREHOUSE = 'WRH', 'Warehouse'
         CUSTOM = 'CUS', 'Custom'
 
-    executingEmployee = models.ForeignKey('users.WarehouseEmployee', on_delete=models.PROTECT)
+    executingEmployee = models.ForeignKey('users.WarehouseEmployee', on_delete=models.CASCADE)
     title = models.CharField(max_length=100, null=True, blank=True)
     date = models.DateField(auto_now_add=True)
     type = models.CharField(

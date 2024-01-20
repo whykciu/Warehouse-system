@@ -26,6 +26,7 @@ export class AuthService {
 
   logout(){
     this.isLoggedInSubject.next(false)
+    localStorage.removeItem('isLoggedIn')
     localStorage.removeItem('user')
     localStorage.removeItem('role')
     localStorage.removeItem('user_id')
@@ -34,6 +35,7 @@ export class AuthService {
 
   setUser(loginResponse: LoginResponse){
     this.isLoggedInSubject.next(true)
+    localStorage.setItem('isLoggedIn', 'true')
     localStorage.setItem('user', loginResponse.username)
     localStorage.setItem('role', loginResponse.role.toString())
     localStorage.setItem('user_id', loginResponse.id.toString())
@@ -41,7 +43,11 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return this.isLoggedInSubject.value;
+    if(localStorage.getItem('isLoggedIn') !== null){
+      return true
+    } else {
+      return false
+    }
   }
 
   isWarehouseEmployee(): boolean {

@@ -4,6 +4,7 @@
     <a routerLink="/order" *ngIf="isLoggedInClient()">Order</a>
     <a routerLink="/add" *ngIf="isLoggedInOfficeEmployee()">Add task</a>
     <a routerLink="/client/orders" *ngIf="isLoggedInClient()">Your Orders</a>
+    <a routerLink="/warehouse-employee/tasks" *ngIf="isLoggedInWarehouseEmployee()">Your Tasks</a>
     <a routerLink="/login" class="right-item" *ngIf="!isLoggedInCheck()">Login</a>
     <a routerLink="/" class="right-item" (click)="logout()" *ngIf="isLoggedInCheck()">Logout</a>
 </nav>

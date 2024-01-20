@@ -1,7 +1,28 @@
 <div class="items-wrapper">
-    <a class="item" *ngFor="let task of tasks" (click)="navigate(task.type, task.pk)" >
-        {{task.title}} <br> 
-        {{task.date}} <br>
-        <img [src]="getImageSource(task.type)" alt="{{ task.title }} Image">
-    </a>
+    <h1>New tasks:</h1>
+    <div class="item" *ngFor="let task of groupedData['NEW']">
+        <a class="item"  (click)="navigate(task.type, task.pk)" >
+            {{task.title}} <br> 
+            {{task.date}} <br>
+            <img [src]="getImageSource(task.type)" alt="{{ task.title }} Image">
+        </a>
+        <button (click)="startTask(task.pk, task.type)">Start</button>
+    </div>
+    <h1>In progress tasks:</h1>
+    <div class="item" *ngFor="let task of groupedData['INP']">
+        <a class="item"  (click)="navigate(task.type, task.pk)" >
+            {{task.title}} <br> 
+            {{task.date}} <br>
+            <img [src]="getImageSource(task.type)" alt="{{ task.title }} Image">
+        </a>
+        <button (click)="endTask(task.pk, task.type)">End</button>
+    </div>
+    <h1>Finished tasks:</h1>
+    <div class="item" *ngFor="let task of groupedData['DON']">
+        <a class="item"  (click)="navigate(task.type, task.pk)" >
+            {{task.title}} <br> 
+            {{task.date}} <br>
+            <img [src]="getImageSource(task.type)" alt="{{ task.title }} Image">
+        </a>
+    </div>
 </div>

@@ -35,7 +35,8 @@ export class ProductService {
     }
 
     if(this.responses.length > 0){
-      const products = JSON.stringify(this.responses)
+      const products = this.responses
+      console.log({ products, pkClient })
       this.http.post(this.sendProductUrl, { products, pkClient }).subscribe(
         response => console.log('Data sent successfully:', response)
       )

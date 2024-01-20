@@ -48,6 +48,17 @@ class Task(models.Model):
         WAREHOUSE = 'WRH', 'Warehouse'
         CUSTOM = 'CUS', 'Custom'
 
+    class Status(models.TextChoices):
+        NEW = 'NEW', 'New'
+        IN_PROGRESS = 'INP', 'In progress'
+        DONE = 'DON', 'Done'
+
+    status = models.CharField(
+        max_length=3,
+        choices=Status.choices,
+        default=Status.NEW
+    )
+
     executingEmployee = models.ForeignKey('users.WarehouseEmployee', on_delete=models.CASCADE)
     title = models.CharField(max_length=100, null=True, blank=True)
     date = models.DateField(auto_now_add=True)
@@ -63,6 +74,16 @@ class Task(models.Model):
         abstract = True
 
     @abstractmethod
+    def start(self):
+        self.status = Task.Status.IN_PROGRESS
+        self.save()
+
+    @abstractmethod
+    def finish(self):
+        self.status = Task.Status.DONE
+        self.save()
+
+    @abstractmethod
     def setUpTask(self, **kwargs):
         pass
 
@@ -74,6 +95,20 @@ class Delivery(Task):
          
     def get_orders(self):
         return Order.objects.filter(task=self)
+
+    def start(self):
+        orders = self.get_orders()
+        for order in orders:
+            order.status = Order.Status.IN_PROGRESS
+            order.save()
+        super().start()
+
+    def finish(self):
+        orders = self.get_orders()
+        for order in orders:
+            order.status = Order.Status.DONE
+            order.save()
+        super().finish()
 
     def setUpTask(self, **kwargs):
         self.title = self.__str__()
@@ -100,6 +135,12 @@ class WarehouseTask(Task):
         self.task_item = kwargs['task_item']
         self.save()
 
+    def start(self):    
+        super().start()
+
+    def finish(self):
+        super().finish()
+
     def __str__(self):
         return 'Warehouse task ' + self.pk.__str__()
     
@@ -119,6 +160,12 @@ class CustomTask(Task):
         self.type = Task.Type.CUSTOM
         self.description = kwargs['description']
         self.save()
+
+    def start(self):
+        return super().start()
+    
+    def finish(self):
+        return super().finish()
 
     def __str__(self):
         return 'Custom task ' + self.pk.__str__()

@@ -35,7 +35,7 @@ def get_tasks(request, id=-1):
         serialized_data = []
 
         for task in tasks:
-            serialized_data.append({'pk': task.pk, 'title': task.title, 'date': task.date, 'type': task.type})
+            serialized_data.append({'pk': task.pk, 'title': task.title, 'date': task.date, 'type': task.type, 'status': task.status})
         return JsonResponse(serialized_data, safe=False)
     else:
         return JsonResponse({'error': 'Not a GET method'})

@@ -3,6 +3,8 @@ import { ActivatedRoute, Route, Router, RouterLink, RouterLinkActive } from '@an
 import { TaskService } from '../../../services/task-service/task.service';
 import { Task } from '../../interfaces/task';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../services/auth-service/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-tasks',
@@ -13,18 +15,30 @@ import { CommonModule } from '@angular/common';
 })
 export class TasksComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private taskService: TaskService, private router: Router){}
+  constructor(private authService: AuthService, private taskService: TaskService, private router: Router, private snackBar: MatSnackBar){}
 
-  id: string = ''
+  id: number = 0
   tasks: Task[] = []
+  groupedData: { [key: string]: Task[] } = {}
 
   ngOnInit(){
-    this.route.paramMap.subscribe(params => {
-      this.id = params.get('id') ?? ''
-    })
+    this.id = this.authService.getAccountId()
 
-    this.taskService.getTasks(this.id).subscribe(
-      r => this.tasks = r
+    this.taskService.getTasks(this.id.toString()).subscribe(
+      r => {
+        this.tasks = r
+        this.groupedData = this.tasks.reduce((acc: { [key: string]: Task[] }, obj) => {
+          const key = obj.status;
+        
+          if (!acc[key]) {
+            acc[key] = [];
+          }
+        
+          acc[key].push(obj);
+        
+          return acc;
+        }, {});
+      }
     )
   }
 
@@ -56,6 +70,22 @@ export class TasksComponent implements OnInit {
         this.router.navigate(['/delivery', id, 'details']);
         break;
     }
+  }
+
+  startTask(id: number, type: string){
+    this.taskService.startTask(id, type).subscribe(r => console.log(r)) 
+    this.snackBar.open('Task started', 'Close', {
+      duration: 1500, 
+    })
+    location.reload()
+  }
+
+  endTask(id: number, type: string){
+    this.taskService.endTask(id, type).subscribe(r => console.log(r)) 
+    this.snackBar.open('Task ended', 'Close', {
+      duration: 1500, 
+    })
+    location.reload()
   }
 
 }

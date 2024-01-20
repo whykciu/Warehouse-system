@@ -65,8 +65,9 @@ def post_order(request):
                 order = Order.objects.create(client=Client.objects.get(pk=data['pkClient']))
                 for item in data['products']:
                     try:
-                        product_instance = Product.objects.get(pk=item['pk'])
-                        OrderItem.objects.create(order=order, product=product_instance, quantity=item['quantity'])
+                        print("item:", item)
+                        product_instance = Product.objects.get(pk=item["pk"])
+                        OrderItem.objects.create(order=order, product=product_instance, quantity=item["quantity"])
                     except Product.DoesNotExist:
                         return JsonResponse({'error': f'Product with ID {item['pk']} not found'}, status=400)
                 order.save()
@@ -140,6 +141,48 @@ def post_task_custom(request):
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
     
+
+@csrf_exempt
+@require_POST
+def post_start_task(request, id=-1):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            if data != None:
+                type = data['type']
+                if type == 'DEL':
+                    task = Delivery.objects.get(pk=id)
+                elif type == 'WRH':
+                    task = WarehouseTask.objects.get(pk=id)
+                else:
+                    task = CustomTask.objects.get(pk=id)
+                task.start()
+                return JsonResponse({'message': 'Task finished successfully'})
+        except json.JSONDecodeError as e:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
+@csrf_exempt
+@require_POST
+def post_end_task(request, id=-1):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            if data != None:
+                type = data['type']
+                if type == 'DEL':
+                    task = Delivery.objects.get(pk=id)
+                elif type == 'WRH':
+                    task = WarehouseTask.objects.get(pk=id)
+                else:
+                    task = CustomTask.objects.get(pk=id)
+                task.finish()
+                return JsonResponse({'message': 'Task finished successfully'})
+        except json.JSONDecodeError as e:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
 # @csrf_exempt
 # def get_delivery(request, id=-1):
 #     if request.method == "GET":

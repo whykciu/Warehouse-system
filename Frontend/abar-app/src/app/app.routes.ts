@@ -23,9 +23,9 @@ export const routes: Routes = [
     { path: 'add/delivery', component: AddDeliveryComponent },
     { path: 'add/warehouse', component: AddWarehouseComponent },
     { path: 'add/custom', component: AddCustomComponent },
-    { path: 'tasks/:id', component: TasksComponent, canActivate: [EmployeeExistsGuard]},
+    { path: 'warehouse-employee/tasks', component: TasksComponent},
     { path: 'delivery/:id/details', component: DeliveryDetailsComponent},
-    { path: 'orders/client', component: OrderHistoryComponent},
+    { path: 'client/orders', component: OrderHistoryComponent},
     { path: 'not-found', component: NotFoundComponent },
     { path: '**', component: NotFoundComponent },
 ]

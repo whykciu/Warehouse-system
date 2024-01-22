@@ -3,6 +3,8 @@ import { WarehouseEmployeeService } from '../../../services/warehouse-employee-s
 import { CustomTaskService } from '../../../services/custom-task-service/custom-task.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-add-custom',
@@ -13,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class AddCustomComponent implements OnInit{
 
-  constructor(private warehouseEmployeeService: WarehouseEmployeeService, private customTaskService: CustomTaskService){}
+  constructor(private warehouseEmployeeService: WarehouseEmployeeService, private customTaskService: CustomTaskService, private router: Router, private snackBar: MatSnackBar){}
 
   selectedEmployeeId: number = 0
   title: string = ''
@@ -27,6 +29,8 @@ export class AddCustomComponent implements OnInit{
 
   createCustomTask(){
     this.customTaskService.sendCustomTask(this.selectedEmployeeId, this.title, this.description)
+    this.snackBar.open('Custom task created', 'Close', {duration: 3000})
+    this.router.navigate(['/add'])
   }
 
 }

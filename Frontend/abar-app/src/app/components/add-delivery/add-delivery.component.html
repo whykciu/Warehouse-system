@@ -1,10 +1,28 @@
-<h1>Select orders to deliver, {{selectedId}}</h1>
-<div class="items-wrapper">
-    <label *ngFor="let order of orders" class="item">
-        Order id: {{order.pk}}
-        <input type="checkbox" [(ngModel)]="checkboxes[order.pk]" [ngModelOptions]="{ standalone: true }">
-    </label>
+<div class="site-container" style="display: flex; flex-direction: column; gap: 10px;">
+    <h1>Select orders to deliver for warehouse employee nr {{selectedId}}</h1>
+    <div class="double-site">
+        <div class="items-wrapper orders-container" style="overflow: scroll;">
+            <label *ngFor="let order of orders; let i = index" class="item order-item">
+                <div class="content-wrapper" style="width: 100%">
+                    <div class="text-wrapper">
+                        <p *ngIf="checkboxes[order.pk]">SELECTED</p>
+                        <p>Order id: {{order.pk}}</p>
+                    </div>
+                    <input type="checkbox" [(ngModel)]="checkboxes[order.pk]" [ngModelOptions]="{ standalone: true }">
+                </div>
+                <button (click)="lastSelected(i)" class="check-details-button" >Check details</button>
+            </label>
+        </div>
+        <div class="items-wrapper orders-container">
+            <h1>Order {{orders[lastSelectedIndex].pk}} details</h1>
+            <div class="list-item" *ngFor="let orderItem of orders[lastSelectedIndex].orderItems">
+                <p>{{orderItem.product_str}} x {{orderItem.quantity}}</p>    
+            </div>
+            <p style="font-weight: bold; font-size: large; align-self: flex-end;">Total: {{calculateTotalPrice(orders[lastSelectedIndex])}} zł</p>
+        </div>
+    </div>
+    <button class="submit-button" (click)="createDelivery()">Create delivery</button>
 </div>
-<button (click)="createDelivery()">Create delivery</button>
+
 
 

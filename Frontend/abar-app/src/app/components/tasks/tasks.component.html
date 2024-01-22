@@ -1,28 +1,42 @@
-<div class="items-wrapper">
-    <h1>New tasks:</h1>
-    <div class="item" *ngFor="let task of groupedData['NEW']">
-        <a class="item"  (click)="navigate(task.type, task.pk)" >
-            {{task.title}} <br> 
-            {{task.date}} <br>
-            <img [src]="getImageSource(task.type)" alt="{{ task.title }} Image">
-        </a>
-        <button (click)="startTask(task.pk, task.type)">Start</button>
-    </div>
-    <h1>In progress tasks:</h1>
-    <div class="item" *ngFor="let task of groupedData['INP']">
-        <a class="item"  (click)="navigate(task.type, task.pk)" >
-            {{task.title}} <br> 
-            {{task.date}} <br>
-            <img [src]="getImageSource(task.type)" alt="{{ task.title }} Image">
-        </a>
-        <button (click)="endTask(task.pk, task.type)">End</button>
-    </div>
-    <h1>Finished tasks:</h1>
-    <div class="item" *ngFor="let task of groupedData['DON']">
-        <a class="item"  (click)="navigate(task.type, task.pk)" >
-            {{task.title}} <br> 
-            {{task.date}} <br>
-            <img [src]="getImageSource(task.type)" alt="{{ task.title }} Image">
-        </a>
+<div class="site-container">
+    <div class="double-site" style="gap: 10px">
+        <div class="items-wrapper orders-container">
+            <h1>New tasks:</h1>
+            <div class="item order-item" style="border-radius: 10px;" *ngFor="let task of groupedData['NEW']">
+                <div class="content-wrapper" style="gap: 10px; width: 100%;" (click)="navigate(task.type, task.pk)">
+                    <div class="text-wrapper">
+                        <p style="font-style: italic; font-size: small;">{{task.date}}</p>
+                        <p>{{task.title}}</p>
+                    </div>    
+                    <img [src]="getImageSource(task.type)" alt="{{ task.title }} Image">
+                </div>
+                <button class="check-details-button" style="width: 50%;" (click)="startTask(task.pk, task.type)">Start</button>
+            </div>
+        </div>
+        <div class="items-wrapper orders-container">
+            <h1>In progress tasks:</h1>
+            <div class="item order-item" style="border-radius: 10px;"  *ngFor="let task of groupedData['INP']">
+                <div class="content-wrapper" style="gap: 10px; width: 100%;" (click)="navigate(task.type, task.pk)">
+                    <div class="text-wrapper">
+                        <p style="font-style: italic; font-size: small;">{{task.date}}</p>
+                        <p>{{task.title}}</p>
+                    </div>    
+                    <img [src]="getImageSource(task.type)" alt="{{ task.title }} Image">
+                </div>
+                <button class="check-details-button" style="width: 50%;" (click)="endTask(task.pk, task.type)">End</button>
+            </div>
+        </div>
+        <div class="items-wrapper orders-container">
+            <h1>Finished tasks:</h1>
+            <div class="item order-item" style="border-radius: 10px;" *ngFor="let task of groupedData['DON']">
+                <div class="content-wrapper" style="gap: 10px; width: 100%;" (click)="navigate(task.type, task.pk)">
+                    <div class="text-wrapper">
+                        <p style="font-style: italic; font-size: small;">{{task.date}}</p>
+                        <p>{{task.title}}</p>
+                    </div>    
+                    <img [src]="getImageSource(task.type)" alt="{{ task.title }} Image">
+                </div>
+            </div>
+        </div>
     </div>
 </div>

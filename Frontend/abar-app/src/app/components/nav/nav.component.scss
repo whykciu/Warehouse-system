@@ -11,12 +11,22 @@ nav{
         text-align: center;
     }
     a{
-        text-decoration: none;
-        &:hover{
-            background-color: rgb(51, 51, 51);
-        }
-    }
-    .right-item{
-        margin-left: auto;
+    text-decoration: none;
+    &:hover{
+        background-color: rgb(51, 51, 51);
     }
 }
+    .right-item{
+        margin-left: auto;
+        .content{
+            padding: 30px;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            &:hover{
+                background-color: rgb(51, 51, 51);
+            }
+        }
+    }
+}
+

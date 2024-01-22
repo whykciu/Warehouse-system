@@ -49,5 +49,9 @@ export class NavComponent {
       duration: 1500, 
     })
   }
+
+  getUsername(): string{
+    return this.authService.getUser()
+  }
   
 }

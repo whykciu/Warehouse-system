@@ -183,15 +183,7 @@ def post_end_task(request, id=-1):
         except json.JSONDecodeError as e:
             return JsonResponse({'error': 'Invalid JSON data'}, status=400)
     else:
-        return JsonResponse({'error': 'Invalid request method'}, status=405)
-# @csrf_exempt
-# def get_delivery(request, id=-1):
-#     if request.method == "GET":
-#         response = Delivery.objects.filter(pk=id).exists()
-#         return HttpResponse(response)
-#     else:
-#         return JsonResponse({'error': 'Not a GET method'})
-    
+        return JsonResponse({'error': 'Invalid request method'}, status=405)    
     
 @csrf_exempt
 def get_delivery_details(request, id=-1):

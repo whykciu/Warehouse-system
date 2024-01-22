@@ -66,4 +66,8 @@ export class AuthService {
     return +localStorage.getItem('acc_id')!
   }
 
+  getUser(): string {
+    return localStorage.getItem('user')!
+  }
+
 }

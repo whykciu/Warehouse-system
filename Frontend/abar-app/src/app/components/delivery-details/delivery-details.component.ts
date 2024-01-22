@@ -31,5 +31,25 @@ export class DeliveryDetailsComponent implements OnInit{
     )
   }
 
+  orderStatus(order: Order): string{
+    switch(order.status){
+      case 'DON': 
+        return "Done"  
+      case 'NEW':
+        return "New" 
+      case 'INP':
+        return "In progress"
+      default: 
+        return "New"
+    }
+  }
+
+  calculateTotalPrice(order: Order): number{
+    let total = 0
+    order.orderItems.forEach(item => {
+      total += item.product_price * item.quantity
+    })
+    return total
+  }
 
 }

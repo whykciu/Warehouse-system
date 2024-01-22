@@ -13,6 +13,8 @@ import { DeliveryDetailsComponent } from './components/delivery-details/delivery
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
+import { HomeComponent } from './components/home/home.component';
+
 
 @Component({
   standalone: true,
@@ -21,6 +23,7 @@ import { OrderHistoryComponent } from './components/order-history/order-history.
     NavComponent,
     OrderComponent, 
     AddTaskComponent, 
+    HomeComponent,
     AddDeliveryComponent,
     AddWarehouseComponent,
     AddCustomComponent,

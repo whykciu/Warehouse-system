@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { WarehouseTaskService } from '../../../services/warehouse-task-service/warehouse-task.service';
 import { WarehouseEmployeeService } from '../../../services/warehouse-employee-service/warehouse-employee.service';
 import { WarehouseTask } from '../../interfaces/warehouse-task';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-add-warehouse',
@@ -18,7 +20,7 @@ export class AddWarehouseComponent implements OnInit{
   selectedEmployeeId: number = 0
   warehouseTasks: WarehouseTask[] = []
 
-  constructor(private warehouseTaskService: WarehouseTaskService, private warehouseEmployeeService: WarehouseEmployeeService){}
+  constructor(private warehouseTaskService: WarehouseTaskService, private warehouseEmployeeService: WarehouseEmployeeService, private router: Router, private snackBar: MatSnackBar){}
 
   ngOnInit() {
     this.warehouseTaskService.getWarehouseTasks().subscribe(
@@ -35,6 +37,8 @@ export class AddWarehouseComponent implements OnInit{
 
   createWarehouseTask(){
     this.warehouseTaskService.sendWarehouseTask(this.selectedEmployeeId, this.selectedTaskId)
+    this.snackBar.open('Warehouse task created', 'Close', {duration: 3000})
+    this.router.navigate(['/add'])
   }
 
 

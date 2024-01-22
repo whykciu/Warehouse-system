@@ -1,3 +1,8 @@
-<input type="text" [(ngModel)]="title" maxlength="70" placeholder="Enter title of task...">
-<textarea [(ngModel)]="description" rows="6" cols="50" maxlength="300" placeholder="Enter task description..."></textarea>
-<button (click)="createCustomTask()">Add custom task</button>
+<div class="site-container">
+    <div class="login-container">
+        <h1>Add custom task</h1>
+        <input type="text" [(ngModel)]="title" maxlength="70" placeholder="Enter title of task...">
+        <textarea [(ngModel)]="description" rows="6" cols="50" maxlength="300" placeholder="Enter task description..."></textarea>
+        <button class="submit-button" (click)="createCustomTask()">Add custom task</button>
+    </div>    
+</div>

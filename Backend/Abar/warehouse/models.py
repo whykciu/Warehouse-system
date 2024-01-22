@@ -143,7 +143,7 @@ class WarehouseTask(Task):
         super().finish()
 
     def __str__(self):
-        return 'Warehouse task ' + self.pk.__str__()
+        return self.task_item.description
     
 class WarehouseTaskItem(models.Model):
     description = models.CharField(max_length=100)
@@ -169,7 +169,7 @@ class CustomTask(Task):
         return super().finish()
 
     def __str__(self):
-        return 'Custom task ' + self.pk.__str__()
+        return self.title + ': ' + self.description
 
 
 class TaskCreator(ABC):

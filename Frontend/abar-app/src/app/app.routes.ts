@@ -12,10 +12,11 @@ import { DeliveryDetailsComponent } from './components/delivery-details/delivery
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
+import { HomeComponent } from './components/home/home.component';
 
 
 export const routes: Routes = [
-    { path: 'home', redirectTo: '/', pathMatch: 'full' },
+    { path: '', component: HomeComponent },
     { path: 'order', component: OrderComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },

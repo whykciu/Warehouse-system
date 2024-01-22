@@ -56,20 +56,7 @@ export class TasksComponent implements OnInit {
   }
 
   navigate(type: string, id: number){
-    switch(type){
-      case 'DEL':
-        this.router.navigate(['/delivery', id, 'details']);
-        break;
-      case 'WRH':
-        this.router.navigate(['/not-found']);
-        break;
-      case 'CUS':
-        this.router.navigate(['/not-found']);
-        break;
-      default:
-        this.router.navigate(['/delivery', id, 'details']);
-        break;
-    }
+      if(type == "DEL") this.router.navigate(['/delivery', id, 'details']);     
   }
 
   startTask(id: number, type: string){

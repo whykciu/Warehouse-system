@@ -1,12 +1,16 @@
 <nav>
     <h3>Abar</h3>
-    <a routerLink="/home">Home</a>
+    <a routerLink="/">Home</a>
     <a routerLink="/order" *ngIf="isLoggedInClient()">Order</a>
     <a routerLink="/add" *ngIf="isLoggedInOfficeEmployee()">Add task</a>
     <a routerLink="/client/orders" *ngIf="isLoggedInClient()">Your Orders</a>
     <a routerLink="/warehouse-employee/tasks" *ngIf="isLoggedInWarehouseEmployee()">Your Tasks</a>
-    <a routerLink="/login" class="right-item" *ngIf="!isLoggedInCheck()">Login</a>
-    <a routerLink="/" class="right-item" (click)="logout()" *ngIf="isLoggedInCheck()">Logout</a>
+    <div class="right-item">
+        <a routerLink="/login" class="content" *ngIf="!isLoggedInCheck()">Login</a>
+        <a disabled class="content" *ngIf="isLoggedInCheck()">Welcome, {{getUsername()}}</a>
+        <a routerLink="/" class="content" (click)="logout()" *ngIf="isLoggedInCheck()">Logout</a>
+    </div>
+    
 </nav>
 
 

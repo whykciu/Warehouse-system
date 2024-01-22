@@ -1,6 +1,10 @@
-<select name="warehouse_task" [(ngModel)]="selectedTaskId">
-    <option *ngFor="let task of warehouseTasks" value="{{task.pk}}">
-        {{task.description}}
-    </option>
-</select>
-<button (click)="createWarehouseTask()">Create warehouse task</button>
+<div class="site-container items-wrapper">
+    <select name="warehouse_task" class="form-select form-select-lg"  [(ngModel)]="selectedTaskId">
+        <option *ngFor="let task of warehouseTasks" value="{{task.pk}}">
+            {{task.description}}
+        </option>
+    </select>
+    <br>
+    <button class="submit-button" (click)="createWarehouseTask()">Create warehouse task</button>
+</div>
+

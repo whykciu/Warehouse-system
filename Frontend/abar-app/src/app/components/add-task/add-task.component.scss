@@ -19,12 +19,23 @@
   height: fit-content;
   text-decoration: none;
   color: black;
+  gap: 10px;
+  transition: 0.1s;
   .task-item{
     @extend .tasks-wrapper;
     flex-direction: column;
     width: fit-content;
     height: fit-content;
     padding: 20px;
-    gap: 5px;
+    gap: 10px;
+    background-color: white;
+    &:hover{
+      background-color: black;
+      color: white;
+      border-radius: 10px;
+      img{
+        filter: invert(100%)
+      }
+    }
   }
 }

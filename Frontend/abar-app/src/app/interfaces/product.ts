@@ -4,4 +4,5 @@ export interface Product {
     capacity: number;
     price: number;
     isSelected: boolean;
+    url: string;
   }

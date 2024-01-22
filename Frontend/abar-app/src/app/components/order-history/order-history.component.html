@@ -1,15 +1,21 @@
-
-<div class="items-wrapper">
-    <label class="item" *ngFor="let order of orders; let i = index" >
-        <input type="radio" name="orderItems" value="{{i}}" [(ngModel)]="selected">
-        Order {{order.pk}} <br> 
-        {{order.status}} <br>
-    </label>
-</div>
-<div class="items-wrapper">
-    <div class="item" *ngFor="let orderItem of orders[selected].orderItems">
-        {{orderItem.product_str}} <br>
-        {{orderItem.quantity}} <br>
-        {{orderItem.isDone}} <br>   
+<div class="site-container">
+    <div class="double-site">
+        <div class="items-wrapper orders-container">
+            <h1>Your orders</h1>
+            <label class="item order-item" *ngFor="let order of orders; let i = index">
+                <div class="content-wrapper" style="gap: 10px;">
+                    <p>Order {{order.pk}}</p>
+                    <p>Status: {{orderStatus(order)}}</p>
+                    <input type="radio" name="orderItems" value="{{i}}" [(ngModel)]="selected">
+                </div>
+            </label>
+        </div>
+        <div class="orders-container items-wrapper">
+            <h1>Order {{orders[selected].pk}} details</h1>
+            <div class="list-item" *ngFor="let orderItem of orders[selected].orderItems">
+                <p>{{orderItem.product_str}} x {{orderItem.quantity}}</p>    
+            </div>
+            <p style="font-weight: bold; font-size: large; align-self: flex-end;">Total: {{calculateTotalPrice(orders[selected])}} zł</p>
+        </div>
     </div>
 </div>

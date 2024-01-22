@@ -14,11 +14,12 @@ import { AuthService } from '../../../services/auth-service/auth.service';
   imports: [ CommonModule, FormsModule ],
 })
 
-export class OrderComponent implements OnInit{
+export class OrderComponent implements OnInit {
 
   products: Product[] = []
   response: { [key: number]: number } = {}
   quantities: { [key: number]: number } = {}
+  total: number = 0
 
   constructor(private productService: ProductService, private authService: AuthService){}
   
@@ -31,12 +32,34 @@ export class OrderComponent implements OnInit{
   
   toggleProduct(index: number){
     this.products[index].isSelected = !this.products[index].isSelected
+    if(!this.products[index].isSelected){
+      if(this.quantities[this.products[index].pk] !== undefined){
+        this.total -= this.products[index].price * this.quantities[this.products[index].pk]
+      }
+    } else {
+      if(this.quantities[this.products[index].pk] !== undefined){
+        this.total += this.products[index].price * this.quantities[this.products[index].pk]
+      }
+    }
+  }
+
+  calculateSum(event: Event, index: number){
+    const target = event.target as HTMLInputElement; 
+    let inputValue = +target.value; 
+    if(isNaN(inputValue) || inputValue < 0){ 
+      inputValue = 0; 
+    }
+
+    this.quantities[index] = inputValue
+
+    this.total =  this.products.filter(product => product.isSelected)
+                          .reduce((sum, product) => sum + product.price * this.quantities[product.pk], 0);
+
   }
 
   order(){
     const selected = this.products.filter(product => product.isSelected === true)
     this.productService.sendProductsToOrder(selected, this.quantities, this.authService.getAccountId())
   }
-
 
 }

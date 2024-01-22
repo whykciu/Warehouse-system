@@ -18,7 +18,7 @@ def get_products(request):
 
         for product in products:
             form = ProductForm(instance=product)
-            serialized_data.append({'pk': product.pk, 'isSelected': False, **{field: form[field].value() for field in form.fields}})
+            serialized_data.append({'pk': product.pk, 'isSelected': False, 'url': product.image.url, **{field: form[field].value() for field in form.fields}})
         
         return JsonResponse(serialized_data, safe=False)
 
@@ -36,8 +36,9 @@ def get_orders(request):
             client = order.client
             email = client.user.email
             address = client.user.address
-            serialized_data.append({'pk': order.pk, 'status': order.status, 'clientEmail': email , 'clientAddress': address, 'orderItems': [{'pk_item': item.pk, 'product_str': item.product.__str__(), 'quantity': item.quantity, 'isDone': item.isDone} for item in orderItems]})
+            serialized_data.append({'pk': order.pk, 'status': order.status, 'clientEmail': email , 'clientAddress': address, 'orderItems': [{'pk_item': item.pk, 'product_str': item.product.__str__(), 'product_price': item.product.price , 'quantity': item.quantity, 'isDone': item.isDone} for item in orderItems]})
     
+        print(serialized_data)
         return JsonResponse(serialized_data, safe=False)
     else:
         return JsonResponse({'error': 'Not a GET method'})
@@ -203,7 +204,7 @@ def get_delivery_details(request, id=-1):
             client = order.client
             email = client.user.email
             address = client.user.address
-            serialized_data.append({'pk': order.pk, 'status': order.status, 'clientEmail': email, 'clientAddress': address, 'orderItems': [{'pk_item': item.pk, 'product_str': item.product.__str__(), 'quantity': item.quantity, 'isDone': item.isDone} for item in orderItems]})
+            serialized_data.append({'pk': order.pk, 'status': order.status, 'clientEmail': email, 'clientAddress': address, 'orderItems': [{'pk_item': item.pk, 'product_str': item.product.__str__(), 'product_price': item.product.price, 'quantity': item.quantity, 'isDone': item.isDone} for item in orderItems]})
     
         return JsonResponse(serialized_data, safe=False)
     else:
@@ -220,7 +221,7 @@ def get_orders_client(request, id=-1):
             client = order.client
             email = client.user.email
             address = client.user.address
-            serialized_data.append({'pk': order.pk, 'status': order.status, 'orderItems': [{'pk_item': item.pk, 'product_str': item.product.__str__(), 'quantity': item.quantity, 'isDone': item.isDone} for item in orderItems]})
+            serialized_data.append({'pk': order.pk, 'status': order.status, 'orderItems': [{'pk_item': item.pk, 'product_str': item.product.__str__(), 'product_price': item.product.price, 'quantity': item.quantity, 'isDone': item.isDone} for item in orderItems]})
     
         return JsonResponse(serialized_data, safe=False)
     else:

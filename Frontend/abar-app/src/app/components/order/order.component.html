@@ -1,13 +1,25 @@
-<h1>Select products to order</h1>
-<div class="items-wrapper">
-    <label *ngFor="let product of products; index as i" class="item">
-        {{product.name}} {{product.capacity}} ml for {{product.price}} złotych per bottle
-        <input type="checkbox" [checked]="product.isSelected" (change)="toggleProduct(i)">
-        <div *ngIf="product.isSelected">
-            Set quantity
-            <input type="number" min="0" [(ngModel)]="quantities[product.pk]" [ngModelOptions]="{ standalone: true }">
-        </div>
-    </label>
+<div class="site-container">
+    <h1>Select products to order</h1>
+    <div class="items-wrapper">
+        <label *ngFor="let product of products; index as i" class="item">
+            <div class="img-wrapper">
+                <img src="http://127.0.0.1:8000{{product.url}}" alt="{{product.name}}">
+            </div>
+            <div class="content-wrapper">
+                <div class="text-wrapper">
+                    <p *ngIf="product.isSelected" style="font-weight: bold;">SELECTED</p>
+                    <p>{{product.name}} {{product.capacity}} ml for {{product.price}} złotych per bottle</p>
+                </div>
+                <input type="checkbox" [checked]="product.isSelected" (change)="toggleProduct(i)">
+                <div class="quantity-field">
+                    Set quantity
+                    <input type="number" min="0" [(ngModel)]="quantities[product.pk]" (input)="calculateSum($event, product.pk)"  [ngModelOptions]="{ standalone: true }">
+                </div>
+            </div>
+        </label>
+    </div>
+    <h1>Total: {{total}} zł</h1><br>
+    <button class="submit-button" (click)="order()">Order now</button>
 </div>
-<button (click)="order()">Order now</button>
+
 

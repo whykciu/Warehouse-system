@@ -1,14 +1,14 @@
-<form (ngSubmit)="login()"> 
-    <label>
-        Username:
+<div class="site-container">
+    <form (ngSubmit)="login()" class="login-container"> 
+        <h1>Registration</h1>        
+        <p>Username</p>
         <input type="email" name="login" [(ngModel)]="username" required>
-    </label>
-    <label>
-        Password:
+        <p>Password</p>
         <input type="password" name="password" [(ngModel)]="password" required>
-    </label>
-    <button type="submit">Login</button>
-</form> 
-<a routerLink="/register">Register</a>
+        <button type="submit" class="submit-button" style="padding: 20px; margin-top: 20px; background-color: black;">Login</button>
+        <a routerLink="/register">Doesn't have an account? Register here</a>
+    </form> 
+</div>
+
 
 

@@ -1,44 +1,44 @@
 # Warehouse-system "Abar"
-Abar to prosta aplikacja web'owa ułatwiająca zarządzanie hurtownią z głównym nastawieniem na hurtownię z napojami (lecz jest opcja rozszerzenia na inne kategorie). Aplikacja umożliwia zarządzanie klientami i ich zamówieniami, dostawami wykonywanymi przez pracowników hurtownii oraz zleceniami wydawanymi przez pracowników biura.
+Abar is a simple web application facilitating the management of a wholesale store with a primary focus on beverage wholesale (but with an option to expand to other categories). The application enables management of customers and their orders, deliveries carried out by warehouse employees, and tasks issued by office staff.
 
-# Technologie
+# Technologies used
 - Backend: Django
-- Frontend: Angular, Typescript, HTML, CSS
-- Baza Danych: SQLite
+- Frontend: Angular, Typescript, HTML, SCSS
+- Database: SQLite
 
-# Użytkownicy
-W aplikacji znajduję się mechanizm logowania i rejestracji (tylko Klienta). Ostatecznie wyróżniamy 5 rodzaje użytkowników:
+# Users
+The application includes a login and registration mechanism (for Customers only). Ultimately, there are 5 types of users:
 - Administrator
-- Klient
-- Pracownik hurtownii
-- Pracownik biura
-- Użytkownik niezalogowany(gość)
+- Customer
+- Warehouse Employee
+- Office Employee
+- Unauthenticated User (Guest)
 
 # Administrator
-Konto administratora to konto które jest w stanie edytować każdy model znajdujący się w aplikacji. Konto to jest tworzone i dostępne do zalogowania się tylko na stronie administratorskiej Django, gdyż konto to wykorzystuje właśnie technologie i zalety Django. Tylko administrator jest w stanie dodawać nowe produkty oraz użytkowników typu Pracownika biura i hurtownii.
+The administrator account is able to edit every model in the application. This account is created and available for login only on the Django administration page since it uses Django's technologies and advantages. Only the administrator can add new products and users such as Warehouse and Office Employees.
 
-# Klient
-Jest to jedyny typ konta które może stworzyć każdy, korzystając z rejestracji na stronie. Konto to ma jedynie możliwość zamówienia produktów na swój podany przy rejestracji adres i podglądnięcia historii swoich zamówienień oraz stanu dostarczenia.
+# Customer
+This is the only type of account that anyone can create using the registration form on the website. This account only has the ability to order products to their registered address, view their order history, and delivery status.
 
-# Pracownik biura
-Typ konta tworzonego tylko przez administratora i odpowiadającego za przeglądanie zamówień złożonych przez klientów, i przydzielanie ich do dostaw dla odpowiednich pracowników. Pracownik biura może również nadać jedno z ustalonych zadań hurtownii lub stworzyć własne zadanie, gdyby nie było możliwe nadanie go wcześniejszymi sposobami.
+# Office Employee
+An account type created only by the administrator, responsible for reviewing orders placed by customers and allocating them for delivery to the appropriate warehouse employees. An office employee can also assign one of the predefined warehouse tasks or create a custom task if previous methods are not applicable.
 
 # Pracownik hurtownii
-To konto które odpowiada za wykonywanie zleconych mu zadań. Użytkownik ten może przeglądać wszystkie zadania jakie kiedykolwiek zostały mu nadane. Dzielimy je na trzy grupy:
-- Nowe
-- W trakcie
-- Zakończone
+This account is responsible for executing assigned tasks. This user can view all tasks assigned to them, categorized into three groups:
+- New
+- In progress
+- Completed
     
-Pracownik hurtownii może rozpocząć nowe zadanie, lub zakończyć już rozpoczęte. Przy wykonywaniu tych operacji, zadania przechodzą do odpowiednich kategorii w zależności od stanu ukończenia. Dodatkowo przy zadaniu "przesyłka" wszystkie zamówienia które znajdowały się w danej przesyłce zostaną zaktualizowane a właściwie ich stan ukończenia, dzięki temu Klient zamawiający dane przesyłki będze w stanie dokładniej wiedzieć co się dzieje z jego zamówieniem.
+Warehouse employees can start new tasks or complete ongoing ones. When handling a 'shipment' task, all orders within that shipment are updated with their completion status, providing customers ordering from that shipment with more accurate information about their orders.
 
-# Gość
-Nie jest to konto posiadający jakikolwiek obiekt w systemie a jest to poprostu użytkownik niezalogowany, którego jedyną opcją przeglądania jest główna strona i możliwość rejestracji.
+# Guest
+This is not an account type with any object in the system but simply an unauthenticated user who can browse the main page and register.
 
-# Wykorzystane wzorce
-Zadania różnych rodzanjów dziedziczą po jednym wspólnym modelu Task, dlatego przy tworzeniu zadania został wykorzystany wzorzec Factory Method gdzie tworzę odpowiednich Creator'ów dla odpowiednich typów zadań. Creator tworzy odpowiednie zadanie, ustawia jego parametry i zapisuje do bazy danych. W architekturze Django używany jest wzorzec MVT (Model - View - Template) gdzie ze strony internetowej (Template) wywołujemy odpowiednie metody REST na odpowiednie endpointy, które wywołują metody w views (View) czyli metody komunikujące się z bazą danych za pomocą modeli obietków (Model) klas w Django.
+# Used Design Patterns
+Tasks of different types inherit from a common Task model, so the Factory Method pattern was used when creating tasks, creating appropriate creators for different task types. The creator creates the appropriate task, sets its parameters, and saves it to the database. In the Django architecture, the MVT (Model - View - Template) pattern is used, where web page templates call appropriate REST methods on corresponding endpoints, which invoke methods in views (View), i.e., methods that communicate with the database using object models (Model) in Django.
 
 # Możliwości rozwoju aplikacji
-- Dodanie klasy magazynu przechowującego ilości danych obiektów w prawdziwym obiekcie
-- Stworzenie interaktywnej listy produktów (możliwych do zaznaczenia/odznaczenia) w zamówieniu dla pracownika hurtownii w celu zaznaczania postępów wypakowywania produktów z pojazdu
-- Tworzenie na mapach trasy calej przesyłki oraz kolejności punktów 
-- Stworzenie skalowalnej na urządzenia mobilne aplikacji internetowej, lub osobnej aplikacji na telefon (umożliwiało by to łatwą możliwość wykorzystania dwóch wcześniejszych opcji)
+- Adding a warehouse class to store quantities of data objects
+- Creating an interactive list of products (able to be checked/unchecked) in an order for warehouse employees to mark progress in unpacking products from vehicles
+- Mapping routes for the entire shipment on maps as well as the order of points
+- Creating a scalable web application for mobile devices or a separate phone application (this would facilitate the easy use of the two previous options)
